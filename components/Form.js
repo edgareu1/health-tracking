@@ -2,12 +2,17 @@
 
 import { useState } from "react";
 
+const formatDate = (date) => {
+	const year = date.getFullYear();
+	const month = `0${date.getMonth() + 1}`.slice(-2);
+	const day = `0${date.getDate()}`.slice(-2);
+
+	return `${year}-${month}-${day}`;
+}
+
 export default function Form() {
 	const todayDate = new Date();
-	const todayYear = todayDate.getFullYear();
-	const todayMonth = `0${todayDate.getMonth() + 1}`.slice(-2);
-	const todayDay = `0${todayDate.getDate()}`.slice(-2);
-	const todayFormattedDate = `${todayYear}-${todayMonth}-${todayDay}`;
+	const todayFormattedDate = formatDate(todayDate);
 
 	const [date, setDate] = useState(todayFormattedDate);
 	const [weight, setWeight] = useState(0);
@@ -27,7 +32,27 @@ export default function Form() {
 
 	const handleChange = (e) => {
 		const setter = setters[e.target.name];
-		setter(e.target.value);
+		const type = e.target.type;
+
+		let value = e.target.value;
+		let min = e.target.min;
+		let max = e.target.max;
+		if (type == 'number') {
+			min = parseInt(min);
+			max = parseInt(max);
+		} else if (type == 'date') {
+			value = new Date(value);
+			min = new Date(min);
+			max = new Date(max);
+		}
+
+		value = Math.max(Math.min(value, max), min);
+
+		if (type == 'date') {
+			value = formatDate(new Date(value));
+		}
+
+		setter(value);
 	}
 
 	return (
