@@ -37,9 +37,19 @@ export default function Form() {
 		body_muscle: setBodyWeight
 	}
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(e);
+
+		const response = await fetch('/api/add-weight-measurement', {
+			method: 'POST',
+			body: JSON.stringify({
+				date,
+				weight,
+				bodyFat,
+				bodyWeight
+			}),
+		});
+		console.log(response);
 	}
 
 	const handleChange = (e) => {
