@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import styles from "./index.module.scss";
+
 const formatDate = (date) => {
 	const year = date.getFullYear();
 	const month = `0${date.getMonth() + 1}`.slice(-2);
