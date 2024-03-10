@@ -12,6 +12,15 @@ const formatDate = (date) => {
 	return `${year}-${month}-${day}`;
 }
 
+const labelClass = 'flex items-center justify-items-stretch gap-4 bg-white text-nowrap p-2 border border-blue-dark rounded';
+const labelStyle = {
+	"--tw-border-opacity": 0.5
+};
+const inpuClass = 'w-full p-2 border border-blue-dark rounded';
+const inputStyle = {
+	"--tw-border-opacity": 0.25
+};
+
 export default function Form() {
 	const todayDate = new Date();
 	const todayFormattedDate = formatDate(todayDate);
@@ -30,6 +39,7 @@ export default function Form() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		console.log(e);
 	}
 
 	const handleChange = (e) => {
@@ -58,11 +68,20 @@ export default function Form() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<label htmlFor="date">
+		<form
+			className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray py-6 px-4 rounded"
+			onSubmit={handleSubmit}
+		>
+			<label
+				className={labelClass}
+				style={labelStyle}
+				htmlFor="date"
+			>
 				Date
 
 				<input
+					className={inpuClass}
+					style={inputStyle}
 					type="date"
 					id="date"
 					name="date"
@@ -100,21 +119,32 @@ export default function Form() {
 				handleChange={handleChange}
 			/>
 
-			<input type="submit" value="Submit" />
+			<input
+				className="col-span-full text-white hover:text-blue bg-blue hover:bg-transparent py-3 px-6 border-2 rounded cursor-pointer"
+				type="submit"
+				value="Submit"
+			/>
 		</form>
 	);
 }
 
 const NumberInput = ({ label, name, min, max, value, handleChange }) => (
-	<label htmlFor={name}>
+	<label
+		className={labelClass}
+		style={labelStyle}
+		htmlFor={name}
+	>
 		{label}
 
 		<input
+			className={inpuClass}
+			style={inputStyle}
 			type="number"
 			id={name}
 			name={name}
 			min={min}
 			max={max}
+			step="0.1"
 			value={value}
 			onChange={handleChange}
 		/>

@@ -7,10 +7,11 @@ module.exports = {
   ],
   theme: {
     colors: {
+      "transparent": "transparent",
       "gray": '#EFEFEF',
       "white": '#FAFAFA',
       'blue': '#5500FF',
-      'blue-dark': '#3F3CBB',
+      'blue-dark': '#2E2642',
     },
     extend: {
       backgroundImage: {
