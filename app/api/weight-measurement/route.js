@@ -17,3 +17,14 @@ export async function POST(request) {
 		return NextResponse.json({ error }, { status: 500 });
 	}
 }
+
+export async function GET(request) {
+	try {
+		const { fields, rows } = await sql`
+			SELECT * FROM WEIGHT_MEASUREMENTS;
+		`;
+		return NextResponse.json({ fields, rows }, { status: 200 });
+	} catch (error) {
+		return NextResponse.json({ error }, { status: 500 });
+	}
+}
