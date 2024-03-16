@@ -1,7 +1,9 @@
+import Table from "@/components/Table";
+
 export default function Dashboard() {
 	return (
-		<h1>
-			TODO
-		</h1>
+		<section className="py-10">
+			<Table />
+		</section>
 	);
 }
