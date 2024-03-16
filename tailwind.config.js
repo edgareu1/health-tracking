@@ -7,11 +7,12 @@ module.exports = {
   ],
   theme: {
     colors: {
-      "transparent": "transparent",
-      "gray": '#EFEFEF',
-      "white": '#FAFAFA',
-      'blue': '#5500FF',
-      'blue-dark': '#2E2642',
+      transparent: "transparent",
+      white: "#FAFAFA",
+      blue: "#0093E9",
+      green: "#80D0C7",
+      orange: "#FF8360",
+      black: "#0B2027"
     },
     extend: {
       backgroundImage: {
