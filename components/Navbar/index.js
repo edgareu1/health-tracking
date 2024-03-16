@@ -6,7 +6,7 @@ import IconCool from "./icon-cool.svg";
 
 export default function Navbar() {
 	return (
-		<nav className="sticky top-0 left-0 bg-white bg-opacity-90">
+		<nav className="sticky top-0 left-0 bg-white bg-opacity-90 z-50">
 			<div className="flex items-center justify-between container py-4 px-2 mx-auto">
 				<Link href="/">
 					<IconCool className="animate-bounce mb-[-1rem]" />

@@ -1,29 +1,21 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import { DataGrid } from '@mui/x-data-grid';
 
-
-const cellClass = 'text-start p-2 border border-black border-opacity-25';
 
 export default function Table() {
-	const [fields, setFields] = useState([]);
+	const [cols, setCols] = useState([]);
 	const [rows, setRows] = useState([]);
 
 	useEffect(() => {
-		const parseFields = (fields) => {
-			return fields
-				.map(({ name }) => ({
-					key: name,
-					label: name
-						.split('_')
-						.map(str => str[0].toUpperCase() + str.slice(1))
-						.join(' ')
-				}));
+		const parseCols = (cols) => {
+			return cols.map(({ name }) => ({ field: name }));
 		}
 
 		const parseRows = (rows) => {
-			return rows.map(row => {
-				const data = Object.assign({}, row);
+			return rows.map((row, index) => {
+				const data = Object.assign({ id: index }, row);
 				if (data.date) {
 					data.date = data.date.slice(0, 10);
 				}
@@ -35,7 +27,7 @@ export default function Table() {
 			fetch('http://localhost:3000/api/weight-measurement')
 				.then(async (data) => await data.json())
 				.then(({ fields, rows}) => {
-					setFields(parseFields(fields));
+					setCols(parseCols(fields));
 					setRows(parseRows(rows));
 				});
 		}
@@ -44,34 +36,22 @@ export default function Table() {
 	}, []);
 
 	return (
-		<table className="max-w-screen-sm w-full bg-white bg-opacity-80 border border-black border-opacity-25 mx-auto">
-			<thead>
-				<tr>
-					{fields.map(({ key, label }) => (
-						<th
-							key={key}
-							className={cellClass}
-						>
-							{label}
-						</th>
-					))}
-				</tr>
-			</thead>
-
-			<tbody>
-				{rows.map((row, key) => (
-					<tr key={key}>
-						{fields.map(({ key }) => (
-							<td
-								key={key}
-								className={cellClass}
-							>
-								{row[key]}
-							</td>
-						))}
-					</tr>
-				))}
-			</tbody>
-		</table>
+		<DataGrid
+			columns={cols}
+			rows={rows}
+			initialState={{
+				pagination: { paginationModel: { pageSize: 5 } },
+				sorting: {
+					sortModel: [{ field: 'date', sort: 'desc' }]
+				},
+			}}
+			pageSizeOptions={[5, 10, 25, 50, 100]}
+			sx={{
+				color: '#0B2027',
+				bgcolor: '#FAFAFACC',
+				borderRadius: 1,
+				p: 2
+			}}
+		/>
 	);
 }
