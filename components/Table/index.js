@@ -2,17 +2,41 @@
 
 import { useEffect, useState } from "react";
 
+
+const cellClass = 'text-start p-2 border border-black border-opacity-25';
+
 export default function Table() {
 	const [fields, setFields] = useState([]);
 	const [rows, setRows] = useState([]);
 
 	useEffect(() => {
+		const parseFields = (fields) => {
+			return fields
+				.map(({ name }) => ({
+					key: name,
+					label: name
+						.split('_')
+						.map(str => str[0].toUpperCase() + str.slice(1))
+						.join(' ')
+				}));
+		}
+
+		const parseRows = (rows) => {
+			return rows.map(row => {
+				const data = Object.assign({}, row);
+				if (data.date) {
+					data.date = data.date.slice(0, 10);
+				}
+				return data;
+			});
+		}
+
 		const fetchData = async () => {
 			fetch('http://localhost:3000/api/weight-measurement')
 				.then(async (data) => await data.json())
 				.then(({ fields, rows}) => {
-					setFields(fields.map(({ name }) => name));
-					setRows(rows);
+					setFields(parseFields(fields));
+					setRows(parseRows(rows));
 				});
 		}
 
@@ -20,12 +44,15 @@ export default function Table() {
 	}, []);
 
 	return (
-		<table className="table-auto">
+		<table className="max-w-screen-sm w-full bg-white bg-opacity-80 border-collapse border border-black border-opacity-25 mx-auto">
 			<thead>
 				<tr>
-					{fields.map(field => (
-						<th key={field}>
-							{field}
+					{fields.map(({ key, label }) => (
+						<th
+							key={key}
+							className={cellClass}
+						>
+							{label}
 						</th>
 					))}
 				</tr>
@@ -34,9 +61,12 @@ export default function Table() {
 			<tbody>
 				{rows.map((row, key) => (
 					<tr key={key}>
-						{fields.map(field => (
-							<td key={field}>
-								{row[field]}
+						{fields.map(({ key }) => (
+							<td
+								key={key}
+								className={cellClass}
+							>
+								{row[key]}
 							</td>
 						))}
 					</tr>

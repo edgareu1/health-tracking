@@ -21,7 +21,8 @@ export async function POST(request) {
 export async function GET(request) {
 	try {
 		const { fields, rows } = await sql`
-			SELECT * FROM WEIGHT_MEASUREMENTS;
+			SELECT * FROM WEIGHT_MEASUREMENTS
+			ORDER BY date;
 		`;
 		return NextResponse.json({ fields, rows }, { status: 200 });
 	} catch (error) {
