@@ -40,7 +40,7 @@ export default function Form() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const response = await fetch('/api/add-weight-measurement', {
+		const response = await fetch('/api/weight-measurement', {
 			method: 'POST',
 			body: JSON.stringify({
 				date,
@@ -54,27 +54,7 @@ export default function Form() {
 
 	const handleChange = (e) => {
 		const setter = setters[e.target.name];
-		const type = e.target.type;
-
-		let value = e.target.value;
-		let min = e.target.min;
-		let max = e.target.max;
-		if (type == 'number') {
-			min = parseInt(min);
-			max = parseInt(max);
-		} else if (type == 'date') {
-			value = new Date(value);
-			min = new Date(min);
-			max = new Date(max);
-		}
-
-		value = Math.max(Math.min(value, max), min);
-
-		if (type == 'date') {
-			value = formatDate(new Date(value));
-		}
-
-		setter(value);
+		setter(e.target.value);
 	}
 
 	return (
