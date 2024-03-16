@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request) {
 	const parseNum = (value) => {
-		return parseInt(value).toFixed(1);
+		return parseFloat(value).toFixed(1);
 	}
 
 	try {

@@ -44,7 +44,7 @@ export default function Table() {
 	}, []);
 
 	return (
-		<table className="max-w-screen-sm w-full bg-white bg-opacity-80 border-collapse border border-black border-opacity-25 mx-auto">
+		<table className="max-w-screen-sm w-full bg-white bg-opacity-80 border border-black border-opacity-25 mx-auto">
 			<thead>
 				<tr>
 					{fields.map(({ key, label }) => (

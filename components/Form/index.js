@@ -43,7 +43,13 @@ export default function Form() {
 				bodyWeight
 			}),
 		});
-		console.log(response);
+
+		if (response.status == 200) {
+			setDate(todayFormattedDate);
+			setWeight(0);
+			setBodyFat(0);
+			setBodyWeight(0);
+		}
 	}
 
 	const handleChange = (e) => {

@@ -2,15 +2,17 @@
 
 import Link from "next/link";
 
+import IconCool from "./icon-cool.svg";
+
 export default function Navbar() {
 	return (
-		<nav className="bg-gray">
+		<nav className="sticky top-0 left-0 bg-white bg-opacity-90">
 			<div className="flex items-center justify-between container py-4 px-2 mx-auto">
-				<h1>
-					HELLO WORLD
-				</h1>
+				<Link href="/">
+					<IconCool className="animate-bounce mb-[-1rem]" />
+				</Link>
 
-				<ul className="flex items-center gap-x-4">
+				<ul className="flex items-center gap-x-6">
 					<li>
 						<Link href="/">
 							Input
