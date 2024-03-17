@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-import Table from "@/components/Table";
 import Graph from "@/components/Graph";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Table from "@/components/Table";
 
 
 export default function Dashboard() {
+	const [isLoading, setIsLoading] = useState(true);
 	const [cols, setCols] = useState([]);
 	const [rows, setRows] = useState([]);
 
@@ -31,27 +33,30 @@ export default function Dashboard() {
 				.then(({ fields, rows}) => {
 					setCols(parseCols(fields));
 					setRows(parseRows(rows));
+					setIsLoading(false);
 				});
 		}
 
 		fetchData();
 	}, []);
 
-	return (
+	return isLoading ? (
+		<LoadingSpinner />
+	) : (
 		<>
-		<section>
-			<Graph
-				cols={cols}
-				rows={rows}
-			/>
-		</section>
+			<section>
+				<Graph
+					cols={cols}
+					rows={rows}
+				/>
+			</section>
 
-		<section className="md:mt-16 mt-8">
-			<Table
-				cols={cols}
-				rows={rows}
-			/>
-		</section>
+			<section className="md:mt-16 mt-8">
+				<Table
+					cols={cols}
+					rows={rows}
+				/>
+			</section>
 		</>
 	);
 }
