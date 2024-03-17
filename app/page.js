@@ -1,6 +1,6 @@
 import Form from "@/components/Form";
 
-export default function Home() {
+export default function PageHome() {
 	return (
 		<section>
 			<Form />

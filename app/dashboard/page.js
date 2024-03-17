@@ -1,9 +1,8 @@
-import Graph from "@/components/Graph";
-import Table from "@/components/Table";
+import Dashboard from "@/components/Dashboard";
 import { GET_WEIGHT_MEASUREMENT } from "@/utils/weight-measurement";
 
 
-export default async function Dashboard() {
+export default async function PageDashboard() {
 	const parseCols = (cols) => {
 		return cols.map(({ name }) => ({ field: name }));
 	}
@@ -23,20 +22,9 @@ export default async function Dashboard() {
 	const rows = parseRows(data.rows);
 
 	return (
-		<>
-			<section>
-				<Graph
-					cols={cols}
-					rows={rows}
-				/>
-			</section>
-
-			<section className="md:mt-16 mt-8">
-				<Table
-					cols={cols}
-					rows={rows}
-				/>
-			</section>
-		</>
+		<Dashboard
+			cols={cols}
+			rows={rows}
+		/>
 	);
 }
