@@ -22,7 +22,7 @@ export async function GET(request) {
 	try {
 		const { fields, rows } = await sql`
 			SELECT * FROM WEIGHT_MEASUREMENTS
-			ORDER BY date DESC;
+			ORDER BY date ASC;
 		`;
 		return NextResponse.json({ fields, rows }, { status: 200 });
 	} catch (error) {
