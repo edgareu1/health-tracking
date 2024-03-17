@@ -1,0 +1,13 @@
+.masterWrapper {
+	[class*="MuiPickersToolbar-root"], [class*="MuiDialogActions-root"] {
+		display: none;
+	}
+
+	[class*="MuiDayCalendar-monthContainer"] [class*="MuiButtonBase-root"]:not([class*="Mui-disabled"]) {
+		background-color: #0093E920;
+
+		&[class*="Mui-selected"] {
+			background-color: #0093E9;
+		}
+	}
+}
