@@ -1,48 +1,28 @@
-'use client'
-
-import { useEffect, useState } from "react";
-
 import Graph from "@/components/Graph";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import Table from "@/components/Table";
+import { GET_WEIGHT_MEASUREMENT } from "@/utils/weight-measurement";
 
 
-export default function Dashboard() {
-	const [isLoading, setIsLoading] = useState(true);
-	const [cols, setCols] = useState([]);
-	const [rows, setRows] = useState([]);
+export default async function Dashboard() {
+	const parseCols = (cols) => {
+		return cols.map(({ name }) => ({ field: name }));
+	}
 
-	useEffect(() => {
-		const parseCols = (cols) => {
-			return cols.map(({ name }) => ({ field: name }));
-		}
+	const parseRows = (rows) => {
+		return rows.map((row, index) => {
+			const data = Object.assign({ id: index }, row);
+			if (data.date) {
+				data.date = new Date(data.date).toISOString().slice(0, 10);
+			}
+			return data;
+		});
+	}
 
-		const parseRows = (rows) => {
-			return rows.map((row, index) => {
-				const data = Object.assign({ id: index }, row);
-				if (data.date) {
-					data.date = data.date.slice(0, 10);
-				}
-				return data;
-			});
-		}
+	const data = await GET_WEIGHT_MEASUREMENT();
+	const cols = parseCols(data.fields);
+	const rows = parseRows(data.rows);
 
-		const fetchData = async () => {
-			fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/weight-measurement`)
-				.then(async (data) => await data.json())
-				.then(({ fields, rows}) => {
-					setCols(parseCols(fields));
-					setRows(parseRows(rows));
-					setIsLoading(false);
-				});
-		}
-
-		fetchData();
-	}, []);
-
-	return isLoading ? (
-		<LoadingSpinner />
-	) : (
+	return (
 		<>
 			<section>
 				<Graph
