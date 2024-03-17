@@ -3,6 +3,8 @@
 import Link from "next/link";
 
 import IconCool from "./icon-cool.svg";
+import styles from "./index.module.scss";
+
 
 export default function Navbar() {
 	return (

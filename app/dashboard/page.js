@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import Table from "@/components/Table";
+import Graph from "@/components/Graph";
 
 
 export default function Dashboard() {
@@ -37,11 +38,20 @@ export default function Dashboard() {
 	}, []);
 
 	return (
+		<>
 		<section>
+			<Graph
+				cols={cols}
+				rows={rows}
+			/>
+		</section>
+
+		<section className="md:mt-16 mt-8">
 			<Table
 				cols={cols}
 				rows={rows}
 			/>
 		</section>
+		</>
 	);
 }
