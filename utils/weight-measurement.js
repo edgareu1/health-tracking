@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import { sql } from '@vercel/postgres';
 
 
@@ -16,6 +17,8 @@ const POST_WEIGHT_MEASUREMENT = async (data) => {
 }
 
 const GET_WEIGHT_MEASUREMENT = async () => {
+	noStore();
+
 	const result = await sql`
 		SELECT * FROM WEIGHT_MEASUREMENTS
 		ORDER BY date ASC;

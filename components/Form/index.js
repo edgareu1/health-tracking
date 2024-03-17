@@ -35,7 +35,7 @@ export default function Form() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const response = await fetch('/api/weight-measurement', {
+		const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/weight-measurement`, {
 			method: 'POST',
 			body: JSON.stringify({
 				date,
