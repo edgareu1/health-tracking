@@ -17,13 +17,15 @@ const labelClass = 'flex items-center justify-items-stretch gap-4 bg-white bg-op
 const inpuClass = 'w-full p-2 bg-white bg-opacity-80 border border-black border-opacity-25 rounded';
 
 export default function Form() {
-	const todayDate = new Date();
-	const todayFormattedDate = formatDate(todayDate);
+	const todayFormattedDate = formatDate(new Date());
+	const tomorrowDate = new Date();
+	tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+	const tomorrowFormattedDate = formatDate(tomorrowDate);
 
 	const [date, setDate] = useState(todayFormattedDate);
-	const [weight, setWeight] = useState(0);
-	const [bodyFat, setBodyFat] = useState(0);
-	const [bodyWeight, setBodyWeight] = useState(0);
+	const [weight, setWeight] = useState(null);
+	const [bodyFat, setBodyFat] = useState(null);
+	const [bodyWeight, setBodyWeight] = useState(null);
 
 	const setters = {
 		date: setDate,
@@ -63,23 +65,15 @@ export default function Form() {
 			className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white bg-opacity-80 p-4 rounded"
 			onSubmit={handleSubmit}
 		>
-			<label
-				className={labelClass}
-				htmlFor="date"
-			>
-				Date
 
-				<input
-					className={inpuClass}
-					type="date"
-					id="date"
-					name="date"
-					min="2024-03-01"
-					max={todayFormattedDate}
-					value={date}
-					onChange={handleChange}
-				/>
-			</label>
+			<DateInput
+				label="Date"
+				name="date"
+				min="2024-03-01"
+				max={tomorrowFormattedDate}
+				value={date}
+				handleChange={handleChange}
+			/>
 
 			<NumberInput
 				label="Weight"
@@ -117,18 +111,45 @@ export default function Form() {
 	);
 }
 
+const DateInput = ({ label, name, min, max, value, handleChange }) => (
+	<label
+		className={labelClass}
+		htmlFor={name}
+	>
+		<span className="min-w-24">
+			{label}
+		</span>
+
+		<input
+			className={inpuClass}
+			type="date"
+			id={name}
+			name={name}
+			placeholder={min}
+			min={min}
+			max={max}
+			value={value}
+			onChange={handleChange}
+		/>
+	</label>
+);
+
+
 const NumberInput = ({ label, name, min, max, value, handleChange }) => (
 	<label
 		className={labelClass}
 		htmlFor={name}
 	>
-		{label}
+		<span className="min-w-24">
+			{label}
+		</span>
 
 		<input
 			className={inpuClass}
 			type="number"
 			id={name}
 			name={name}
+			placeholder={min}
 			min={min}
 			max={max}
 			step="0.1"
