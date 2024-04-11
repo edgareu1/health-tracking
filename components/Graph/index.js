@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
+import { axisClasses } from '@mui/x-charts/ChartsAxis';
 
 import styles from "./index.module.scss";
 
@@ -58,6 +59,14 @@ export default function Graph({ cols, rows }) {
 			leftAxis="bodyMuscleAxis"
 			rightAxis="bodyFatAxis"
 			height={400}
+			sx={{
+				[`.${axisClasses.left} .${axisClasses.label}`]: {
+					transform: 'translateX(-10px)',
+				},
+				[`.${axisClasses.right} .${axisClasses.label}`]: {
+					transform: 'translateX(10px)',
+				}
+			}}
 		/>
 	);
 }
