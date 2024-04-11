@@ -6,9 +6,20 @@ import styles from "./index.module.scss";
 
 
 export default function Table({ cols, rows }) {
+	const colHeaderMap = {
+		date: 'Date',
+		weight: 'Weight (kg)',
+		body_fat: 'Fat (%)',
+		body_muscle: 'Muscle (%)'
+	}
+
 	return (
 		<DataGrid
-			columns={cols}
+			columns={cols.map(col => ({
+				...col,
+				headerName: colHeaderMap[col.field],
+				width: 150,
+			}))}
 			rows={rows}
 			initialState={{
 				pagination: { paginationModel: { pageSize: 5 } },

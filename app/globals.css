@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.MuiDataGrid-root {
+	overflow-x: scroll;
+}
+
+.MuiDataGrid-main {
+	width: fit-content;
+}
