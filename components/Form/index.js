@@ -23,9 +23,9 @@ export default function Form() {
 	const tomorrowFormattedDate = formatDate(tomorrowDate);
 
 	const [date, setDate] = useState(todayFormattedDate);
-	const [weight, setWeight] = useState(null);
-	const [bodyFat, setBodyFat] = useState(null);
-	const [bodyWeight, setBodyWeight] = useState(null);
+	const [weight, setWeight] = useState("");
+	const [bodyFat, setBodyFat] = useState("");
+	const [bodyWeight, setBodyWeight] = useState("");
 
 	const setters = {
 		date: setDate,
@@ -49,9 +49,9 @@ export default function Form() {
 
 		if (response.status == 200) {
 			setDate(todayFormattedDate);
-			setWeight(0);
-			setBodyFat(0);
-			setBodyWeight(0);
+			setWeight("");
+			setBodyFat("");
+			setBodyWeight("");
 		}
 	}
 

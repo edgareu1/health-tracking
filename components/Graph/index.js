@@ -126,7 +126,7 @@ const CheckBox = ({ label, color, value, setter }) => {
 
 	return (
 		<label
-			for={name}
+			htmlFor={name}
 			className={clsx({
 				[styles.checked]: value
 			})}
