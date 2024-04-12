@@ -1,4 +1,5 @@
 import Dashboard from "@/components/Dashboard";
+import { formatDate } from "@/utils/functions";
 import { GET_WEIGHT_MEASUREMENT } from "@/utils/weight-measurement";
 
 
@@ -11,7 +12,7 @@ export default async function PageDashboard() {
 		return rows.map((row, index) => {
 			const data = Object.assign({ id: index }, row);
 			if (data.date) {
-				data.date = new Date(data.date).toISOString().slice(0, 10);
+				data.date = formatDate(new Date(data.date));
 			}
 			return data;
 		});
@@ -25,6 +26,7 @@ export default async function PageDashboard() {
 		<Dashboard
 			cols={cols}
 			rows={rows}
+			data={data}
 		/>
 	);
 }
