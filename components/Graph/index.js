@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx';
-import { useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 
@@ -17,6 +17,18 @@ export default function Graph({ cols, rows }) {
 	const [displayFat, setDisplayFat] = useState(true);
 	const [displayMuscle, setDisplayMuscle] = useState(true);
 	const [displayWeight, setDisplayWeight] = useState(true);
+
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth <= 768);
+		}
+
+		window.addEventListener('resize', handleResize);
+
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
 
 	const series = [];
 	if (displayFat) {
@@ -95,7 +107,7 @@ export default function Graph({ cols, rows }) {
 			leftAxis="bodyMuscleAxis"
 			rightAxis="bodyFatAxis"
 			slotProps={{ legend: { hidden: true } }}
-			height={400}
+			height={isMobile ? 300 : 400}
 			sx={{
 				[`.${axisClasses.left} .${axisClasses.label}`]: {
 					transform: 'translateX(-10px)',
