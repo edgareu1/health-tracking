@@ -1,6 +1,7 @@
 'use client'
 
-import { useMemo } from 'react';
+import clsx from 'clsx';
+import { useId, useMemo, useState } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 
@@ -13,7 +14,62 @@ export default function Graph({ cols, rows }) {
 	const arrBodyMuscle = useMemo(() => rows.map(x => parseFloat(x.body_muscle)), [rows]);
 	const arrWeight = useMemo(() => rows.map(x => parseFloat(x.weight)), [rows]);
 
+	const [displayFat, setDisplayFat] = useState(true);
+	const [displayMuscle, setDisplayMuscle] = useState(true);
+	const [displayWeight, setDisplayWeight] = useState(true);
+
+	const series = [];
+	if (displayFat) {
+		series.push({
+			data: arrBodyFat,
+			color: '#FF8360',
+			label: 'Fat (%)',
+			yAxisKey: 'bodyFatAxis',
+		});
+	}
+	if (displayMuscle) {
+		series.push({
+			data: arrBodyMuscle,
+			color: '#0B2027',
+			label: 'Muscle (%)',
+			yAxisKey: 'bodyMuscleAxis',
+		});
+	}
+	if (displayWeight) {
+		series.push({
+			data: arrWeight,
+			color: '#0093E9',
+			label: 'Weight (kg)',
+			area: true,
+			yAxisKey: 'weightAxis',
+		});
+	}
+
 	return (
+		<>
+		<div className={clsx(styles.checkboxWrapper)}>
+			<CheckBox
+				label="Fat (%)"
+				color="#FF8360"
+				value={displayFat}
+				setter={setDisplayFat}
+			/>
+
+			<CheckBox
+				label="Muscle (%)"
+				color="#0B2027"
+				value={displayMuscle}
+				setter={setDisplayMuscle}
+			/>
+
+			<CheckBox
+				label="Weight (kg)"
+				color="#0093E9"
+				value={displayWeight}
+				setter={setDisplayWeight}
+			/>
+		</div>
+
 		<LineChart
 			xAxis={[{
 				scaleType: 'band',
@@ -35,29 +91,10 @@ export default function Graph({ cols, rows }) {
 					max: Math.ceil(Math.max(...arrWeight)),
 				},
 			]}
-			series={[
-				{
-					data: arrBodyFat,
-					color: '#FF8360',
-					label: 'Fat (%)',
-					yAxisKey: 'bodyFatAxis',
-					},
-				{
-					data: arrBodyMuscle,
-					color: '#0B2027',
-					label: 'Muscle (%)',
-					yAxisKey: 'bodyMuscleAxis',
-				},
-				{
-					data: arrWeight,
-					color: '#0093E9',
-					label: 'Weight (kg)',
-					area: true,
-					yAxisKey: 'weightAxis',
-				},
-			]}
+			series={series}
 			leftAxis="bodyMuscleAxis"
 			rightAxis="bodyFatAxis"
+			slotProps={{ legend: { hidden: true } }}
 			height={400}
 			sx={{
 				[`.${axisClasses.left} .${axisClasses.label}`]: {
@@ -68,5 +105,31 @@ export default function Graph({ cols, rows }) {
 				}
 			}}
 		/>
+		</>
+	);
+}
+
+const CheckBox = ({ label, color, value, setter }) => {
+	const name = useId();
+
+	return (
+		<label
+			for={name}
+			className={clsx({
+				[styles.checked]: value
+			})}
+			style={{
+				"--checkbox-color": color
+			}}
+		>
+			<input
+				type="checkbox"
+				id={name}
+				name={name}
+				checked={value}
+				onChange={() => setter(!value)}
+			/>
+			{label}
+		</label>
 	);
 }
