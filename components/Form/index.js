@@ -2,16 +2,10 @@
 
 import { useState } from "react";
 
+import { formatDate } from "@/utils/functions";
+
 import styles from "./index.module.scss";
 
-
-const formatDate = (date) => {
-	const year = date.getFullYear();
-	const month = `0${date.getMonth() + 1}`.slice(-2);
-	const day = `0${date.getDate()}`.slice(-2);
-
-	return `${year}-${month}-${day}`;
-}
 
 const labelClass = 'flex items-center justify-items-stretch gap-4 bg-white bg-opacity-80 text-nowrap p-2 border border-black border-opacity-50 rounded';
 const inpuClass = 'w-full p-2 bg-white bg-opacity-80 border border-black border-opacity-25 rounded';

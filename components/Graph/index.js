@@ -8,11 +8,29 @@ import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import styles from "./index.module.scss";
 
 
+const parseRows = (rows, key) => {
+	const result = [];
+	let lastValue = rows[0][key];
+
+	for (let i = 0; i < rows.length; i++) {
+		let value = rows[i][key];
+		if (!value) {
+			value = lastValue;
+		}
+		value = parseFloat(value);
+
+		result.push(value);
+		lastValue = value;
+	}
+
+	return result;
+}
+
 export default function Graph({ cols, rows }) {
 	const arrDates = useMemo(() => rows.map(x => x.date), [rows]);
-	const arrBodyFat = useMemo(() => rows.map(x => parseFloat(x.body_fat)), [rows]);
-	const arrBodyMuscle = useMemo(() => rows.map(x => parseFloat(x.body_muscle)), [rows]);
-	const arrWeight = useMemo(() => rows.map(x => parseFloat(x.weight)), [rows]);
+	const arrBodyFat = useMemo(() => parseRows(rows, 'body_fat'), [rows]);
+	const arrBodyMuscle = useMemo(() => parseRows(rows, 'body_muscle'), [rows]);
+	const arrWeight = useMemo(() => parseRows(rows, 'weight'), [rows]);
 
 	const [displayFat, setDisplayFat] = useState(true);
 	const [displayMuscle, setDisplayMuscle] = useState(true);
@@ -34,6 +52,7 @@ export default function Graph({ cols, rows }) {
 	if (displayFat) {
 		series.push({
 			data: arrBodyFat,
+			connectNulls: true,
 			color: '#FF8360',
 			label: 'Fat (%)',
 			yAxisKey: 'bodyFatAxis',
@@ -42,6 +61,7 @@ export default function Graph({ cols, rows }) {
 	if (displayMuscle) {
 		series.push({
 			data: arrBodyMuscle,
+			connectNulls: true,
 			color: '#0B2027',
 			label: 'Muscle (%)',
 			yAxisKey: 'bodyMuscleAxis',
@@ -50,6 +70,7 @@ export default function Graph({ cols, rows }) {
 	if (displayWeight) {
 		series.push({
 			data: arrWeight,
+			connectNulls: true,
 			color: '#0093E9',
 			label: 'Weight (kg)',
 			area: true,
