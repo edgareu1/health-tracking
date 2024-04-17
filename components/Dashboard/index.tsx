@@ -1,35 +1,21 @@
 'use client'
 
-import { useMemo, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
+import type { DashboarCol, DashboarRow } from '@/app/dashboard/page';
 import Graph from "@/components/Graph";
 import RangePicker from "@/components/RangePicker";
 import Table from "@/components/Table";
-import { formatDate, newDateWithoutTZ } from '@/utils/functions';
 
 import styles from "./index.module.scss";
 
 
-const parseRows = (rows) => {
-	const newData = [];
-	const initDate = newDateWithoutTZ(rows[0].date);
-
-	for (let i = 0; i < rows.length; i++) {
-		const currentDate = newDateWithoutTZ(rows[i].date);
-
-		while (initDate < currentDate) {
-			newData.push({ date: formatDate(initDate) });
-			initDate.setDate(initDate.getDate() + 1);
-		}
-
-		newData.push(rows[i]);
-		initDate.setDate(initDate.getDate() + 1);
-	}
-
-	return newData;
+type Props = {
+	cols: DashboarCol[];
+	rows: DashboarRow[];
 }
 
-export default function Dashboard(props) {
+export default function Dashboard(props: Props): ReactNode {
 	const cols = props.cols;
 	const originalRows = props.rows;
 
@@ -48,14 +34,14 @@ export default function Dashboard(props) {
 			<section className="md:mt-16 mt-8">
 				<Graph
 					cols={cols}
-					rows={useMemo(() => parseRows(rows), [rows])}
+					rows={rows}
 				/>
 			</section>
 
 			<section className="md:mt-16 mt-8">
 				<Table
 					cols={cols}
-					rows={rows}
+					rows={rows.filter(({ valid }) => valid)}
 				/>
 			</section>
 		</>
