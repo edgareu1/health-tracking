@@ -1,4 +1,4 @@
-import { IconSpinner } from "@/utils/svg-icons";
+import { IconSpinner } from "@/components/SVGIcons";
 
 import styles from "./index.module.scss";
 

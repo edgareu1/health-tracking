@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { IconCool } from "@/utils/svg-icons";
+import { IconCool } from "@/components/SVGIcons";
 
 import styles from "./index.module.scss";
 
