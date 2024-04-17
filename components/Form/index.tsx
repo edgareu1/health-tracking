@@ -1,16 +1,25 @@
 'use client'
 
-import { useState } from "react";
+import { ChangeEvent, FormEvent, ReactNode, useState } from "react";
 
 import { formatDate } from "@/utils/functions";
 
 import styles from "./index.module.scss";
 
 
+type InputProps = {
+	label: string;
+	name: string;
+	min: string;
+	max: string;
+	value: string;
+	handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
 const labelClass = 'flex items-center justify-items-stretch gap-4 bg-white bg-opacity-80 text-nowrap p-2 border border-black border-opacity-50 rounded';
 const inpuClass = 'w-full p-2 bg-white bg-opacity-80 border border-black border-opacity-25 rounded';
 
-export default function Form() {
+export default function Form(): ReactNode {
 	const todayFormattedDate = formatDate(new Date());
 	const tomorrowDate = new Date();
 	tomorrowDate.setDate(tomorrowDate.getDate() + 1);
@@ -28,7 +37,7 @@ export default function Form() {
 		body_muscle: setBodyWeight
 	}
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e: FormEvent): Promise<void> => {
 		e.preventDefault();
 
 		const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/weight-measurement`, {
@@ -49,7 +58,7 @@ export default function Form() {
 		}
 	}
 
-	const handleChange = (e) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
 		const setter = setters[e.target.name];
 		setter(e.target.value);
 	}
@@ -59,7 +68,6 @@ export default function Form() {
 			className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white bg-opacity-80 p-4 rounded"
 			onSubmit={handleSubmit}
 		>
-
 			<DateInput
 				label="Date"
 				name="date"
@@ -105,7 +113,7 @@ export default function Form() {
 	);
 }
 
-const DateInput = ({ label, name, min, max, value, handleChange }) => (
+const DateInput = ({ label, name, min, max, value, handleChange }: InputProps): ReactNode => (
 	<label
 		className={labelClass}
 		htmlFor={name}
@@ -129,7 +137,7 @@ const DateInput = ({ label, name, min, max, value, handleChange }) => (
 );
 
 
-const NumberInput = ({ label, name, min, max, value, handleChange }) => (
+const NumberInput = ({ label, name, min, max, value, handleChange }: InputProps): ReactNode => (
 	<label
 		className={labelClass}
 		htmlFor={name}
