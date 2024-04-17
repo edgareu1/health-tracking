@@ -1,8 +1,15 @@
+import { ReactNode } from "react";
+
 import Navbar from "@/components/Navbar";
 
 import "./globals.css";
 
-export default function RootLayout({ children }) {
+
+export type Props = {
+  children: ReactNode
+}
+
+export default function RootLayout({ children }: Props): ReactNode {
   return (
     <html lang="en">
       <body className="text-black min-h-screen bg-gradient-to-br from-blue via-green">

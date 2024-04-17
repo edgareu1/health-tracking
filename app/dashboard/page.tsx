@@ -1,14 +1,25 @@
+import { ReactNode } from "react";
+import type { FieldDef, QueryResultRow } from "@vercel/postgres";
+
 import Dashboard from "@/components/Dashboard";
 import { formatDate } from "@/utils/functions";
 import { GET_WEIGHT_MEASUREMENT } from "@/utils/weight-measurement";
 
 
-export default async function PageDashboard() {
-	const parseCols = (cols) => {
+type Col = {
+	field: string;
+}
+
+type Row = QueryResultRow & {
+	id: number;
+}
+
+export default async function PageDashboard(): Promise<ReactNode> {
+	const parseCols = (cols: FieldDef[]): Col[] => {
 		return cols.map(({ name }) => ({ field: name }));
 	}
 
-	const parseRows = (rows) => {
+	const parseRows = (rows: QueryResultRow[]): Row[] => {
 		return rows.map((row, index) => {
 			const data = Object.assign({ id: index }, row);
 			if (data.date) {
