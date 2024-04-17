@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { POST_WEIGHT_MEASUREMENT, GET_WEIGHT_MEASUREMENT } from '@/utils/weight-measurement';
 
 
-export async function POST(request) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
 	try {
 		const data = await request.json();
 		const result = await POST_WEIGHT_MEASUREMENT(data);
@@ -14,7 +14,7 @@ export async function POST(request) {
 	}
 }
 
-export async function GET(request) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
 	try {
 		const { fields, rows } = await GET_WEIGHT_MEASUREMENT();
 
