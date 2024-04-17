@@ -1,11 +1,19 @@
 'use client'
 
+import type { ReactNode } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+
+import { DashboarCol, DashboarRow } from '@/app/dashboard/page';
 
 import styles from "./index.module.scss";
 
 
-export default function Table({ cols, rows }) {
+type Props = {
+	cols: DashboarCol[];
+	rows: DashboarRow[];
+}
+
+export default function Table({ cols, rows }: Props): ReactNode {
 	const colHeaderMap = {
 		date: 'Date',
 		weight: 'Weight (kg)',

@@ -2,15 +2,23 @@
 
 import clsx from 'clsx';
 import dayjs from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 
+import type { DashboarRow } from '@/app/dashboard/page';
+
 import styles from "./index.module.scss";
 
 
-export default function RangePicker({ originalRows, rows, setRows }) {
+type Props = {
+	originalRows: DashboarRow[];
+	rows: DashboarRow[];
+	setRows: Dispatch<SetStateAction<DashboarRow[]>>;
+}
+
+export default function RangePicker({ originalRows, rows, setRows }: Props): ReactNode {
 	const defaultMinDate = dayjs(originalRows[0].date);
 	const defaultMaxDate = dayjs(originalRows[originalRows.length - 1].date);
 
@@ -28,7 +36,7 @@ export default function RangePicker({ originalRows, rows, setRows }) {
 	useEffect(() => {
 		const originalHeight = 334;
 
-		const handleWindowResize = (event) => {
+		const handleWindowResize = () => {
 			if (window.innerWidth > 767) {
 				return;
 			}
