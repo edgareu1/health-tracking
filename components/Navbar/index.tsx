@@ -1,11 +1,12 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 
-import { IconCool } from "@/utils/svg-icons";
+import { IconCool } from "@/components/SVGIcons";
 
 import styles from "./index.module.scss";
 
 
-export default function Navbar() {
+export default function Navbar(): ReactNode {
 	return (
 		<nav className="sticky top-0 left-0 bg-white bg-opacity-90 z-50">
 			<div className="flex items-center justify-between container py-4 px-2 mx-auto">

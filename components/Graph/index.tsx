@@ -1,14 +1,32 @@
 'use client'
 
 import clsx from 'clsx';
-import { useEffect, useId, useMemo, useState } from 'react';
+import { CSSProperties, Dispatch, ReactNode, SetStateAction, useEffect, useId, useMemo, useState } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
+
+import type { DashboarCol, DashboarRow } from '@/app/dashboard/page';
 
 import styles from "./index.module.scss";
 
 
-const parseRows = (rows, key) => {
+type Props = {
+	cols: DashboarCol[];
+	rows: DashboarRow[];
+}
+
+type CheckBoxProps = {
+	label: string;
+	color: string;
+	value: boolean;
+	setter: Dispatch<SetStateAction<boolean>>;
+}
+
+type CustomCSSProperties = CSSProperties & {
+    "--checkbox-color": string;
+}
+
+const parseRows = (rows: DashboarRow[], key: string): number[] => {
 	const result = [];
 	let lastValue = rows[0][key];
 
@@ -26,7 +44,7 @@ const parseRows = (rows, key) => {
 	return result;
 }
 
-export default function Graph({ cols, rows }) {
+export default function Graph({ cols, rows }: Props): ReactNode {
 	const arrDates = useMemo(() => rows.map(x => x.date), [rows]);
 	const arrBodyFat = useMemo(() => parseRows(rows, 'body_fat'), [rows]);
 	const arrBodyMuscle = useMemo(() => parseRows(rows, 'body_muscle'), [rows]);
@@ -142,8 +160,12 @@ export default function Graph({ cols, rows }) {
 	);
 }
 
-const CheckBox = ({ label, color, value, setter }) => {
+const CheckBox = ({ label, color, value, setter }: CheckBoxProps): ReactNode => {
 	const name = useId();
+
+	const customStyles: CustomCSSProperties = {
+        "--checkbox-color": color
+    };
 
 	return (
 		<label
@@ -151,9 +173,7 @@ const CheckBox = ({ label, color, value, setter }) => {
 			className={clsx({
 				[styles.checked]: value
 			})}
-			style={{
-				"--checkbox-color": color
-			}}
+			style={customStyles}
 		>
 			<input
 				type="checkbox"
