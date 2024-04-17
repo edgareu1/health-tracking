@@ -1,9 +1,16 @@
 import { unstable_noStore as noStore } from 'next/cache';
-import { sql } from '@vercel/postgres';
+import { QueryResult, QueryResultRow, sql } from '@vercel/postgres';
 
 
-const POST_WEIGHT_MEASUREMENT = async (data) => {
-	const parseNum = (value) => {
+type POST_WEIGHT_MEASUREMENT_PROPS = {
+	date: string;
+	weight: string;
+	bodyFat: string;
+	bodyWeight: string;
+}
+
+const POST_WEIGHT_MEASUREMENT = async (data: POST_WEIGHT_MEASUREMENT_PROPS): Promise<QueryResult<QueryResultRow>> => {
+	const parseNum = (value: string): string => {
 		return parseFloat(value).toFixed(1);
 	}
 
@@ -16,7 +23,7 @@ const POST_WEIGHT_MEASUREMENT = async (data) => {
 	return result;
 }
 
-const GET_WEIGHT_MEASUREMENT = async () => {
+const GET_WEIGHT_MEASUREMENT = async (): Promise<QueryResult<QueryResultRow>> => {
 	noStore();
 
 	const result = await sql`
