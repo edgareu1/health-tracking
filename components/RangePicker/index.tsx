@@ -38,6 +38,8 @@ export default function RangePicker({ originalRows, rows, setRows }: Props): Rea
 
 		const handleWindowResize = () => {
 			if (window.innerWidth > 767) {
+				wrapperRef.current.style.marginBottom = 0;
+				wrapperRef.current.firstChild.style.transform = 'none';
 				return;
 			}
 
